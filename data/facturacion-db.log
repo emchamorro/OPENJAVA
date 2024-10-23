@@ -1,0 +1,53 @@
+/*C2*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C3*/SET SCHEMA PUBLIC
+create table Cliente (numero integer not null, codigoPostal integer, municipio varchar(20), provincia varchar(30), viaPublica varchar(30), nombre varchar(50), primary key (numero))
+create table Factura (oid varchar(32) not null, anyo integer, fecha date, numero integer, observaciones varchar(255), cliente_numero integer not null, primary key (oid))
+create table Factura_detalles (Factura_oid varchar(32) not null, cantidad integer not null, producto_numero integer)
+create table Producto (numero integer not null, descripcion varchar(50), fotos varchar(32), observaciones varchar(255), precio numeric(19,2), categoria_oid varchar(32), primary key (numero))
+alter table Factura add constraint FKmd10sg74xw8mq3d2m9k2kxual foreign key (cliente_numero) references Cliente
+alter table Factura_detalles add constraint FKe3f314u9v7uw8aktwkjo8473t foreign key (producto_numero) references Producto
+alter table Factura_detalles add constraint FKpl16p1cpo7r84s75asx5db9nq foreign key (Factura_oid) references Factura
+alter table Producto add constraint FKc81rcy0vfdn5ewnap5scabhd3 foreign key (categoria_oid) references Categoria
+INSERT INTO CATEGORIA VALUES('4028818d92b7d2260192b7d2d1320000','Computadoras')
+COMMIT
+INSERT INTO CATEGORIA VALUES('4028818d92b7d2260192b7d31d460001','Lista')
+COMMIT
+DELETE FROM CATEGORIA WHERE OID='4028818d92b7d2260192b7d31d460001'
+COMMIT
+INSERT INTO PRODUCTO VALUES(1,'Computadora DELL','B7D4334FC0A8010D00000000980DEB0C','Nueva',100.00,'4028818d92b7d2260192b7d2d1320000')
+COMMIT
+INSERT INTO CLIENTE VALUES(1,9999,'Managua','Bello Horizonte','Managua','Mauricio ')
+COMMIT
+INSERT INTO FACTURA VALUES('4028818d92b7d2260192b7d5fdc20002',2024,'2024-10-22',1,'LLeva una Laptop',1)
+INSERT INTO FACTURA_DETALLES VALUES('4028818d92b7d2260192b7d5fdc20002',1,1)
+COMMIT
+INSERT INTO CATEGORIA VALUES('4028818d92b7d2260192b8139ebb0003','Camaras')
+COMMIT
+DELETE FROM CATEGORIA WHERE OID='4028818d92b797160192b79751060000'
+COMMIT
+INSERT INTO PRODUCTO VALUES(34,'Camara canon 3000','B814E821C0A8010D00000000AFDCCE89','Nueva',300.00,'4028818d92b7d2260192b8139ebb0003')
+COMMIT
+INSERT INTO CLIENTE VALUES(3,2424,'Rosario','Rosario','rosario','Francisco')
+COMMIT
+INSERT INTO FACTURA VALUES('4028818d92b7d2260192b81743fa0004',2024,'2024-10-23',2,'lleva una camara canon\u000a',3)
+INSERT INTO FACTURA_DETALLES VALUES('4028818d92b7d2260192b81743fa0004',0,34)
+COMMIT
+INSERT INTO CATEGORIA VALUES('4028818d92b7d2260192b82021cc0005','Impresoras')
+COMMIT
+DELETE FROM CATEGORIA WHERE OID='4028818d92b7d2260192b82021cc0005'
+COMMIT
+INSERT INTO CATEGORIA VALUES('4028818d92b7d2260192b826d3f10006','Impresoras')
+COMMIT
+INSERT INTO PRODUCTO VALUES(46,'Impresora Epson','B8279F37C0A8010D0000000009512F9F','Nueva',450.00,NULL)
+COMMIT
+DELETE FROM PRODUCTO WHERE NUMERO=46
+INSERT INTO PRODUCTO VALUES(46,'Impresora Epson','B8279F37C0A8010D0000000009512F9F','Nueva',450.00,'4028818d92b7d2260192b826d3f10006')
+COMMIT
+INSERT INTO CLIENTE VALUES(3624,999,'Managua','Rosario','Rosario ','Carlos')
+COMMIT
+DELETE FROM FACTURA WHERE OID='4028818d92b7d2260192b81743fa0004'
+INSERT INTO FACTURA VALUES('4028818d92b7d2260192b81743fa0004',2024,'2024-10-23',2,'lleva una impresora Epson',3624)
+DELETE FROM FACTURA_DETALLES WHERE FACTURA_OID='4028818d92b7d2260192b81743fa0004' AND CANTIDAD=0 AND PRODUCTO_NUMERO=34
+INSERT INTO FACTURA_DETALLES VALUES('4028818d92b7d2260192b81743fa0004',0,46)
+COMMIT
